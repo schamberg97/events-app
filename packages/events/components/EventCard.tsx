@@ -53,7 +53,7 @@ function EventCardUnmemo({onChooseEvent, index, isExtended, onOuterPress}: Event
         })();
         
         
-    }, [event.attending])
+    }, [event])
 
     const handlePress = useCallback(() => {
         onChooseEvent(index)
@@ -87,7 +87,7 @@ function EventCardUnmemo({onChooseEvent, index, isExtended, onOuterPress}: Event
                 eventStore$.events.set(newEvents)
             }
         })
-    }, [attendingMutation])
+    }, [attendingMutation, index])
 
     const Footer = useCallback(() => {
         return (
@@ -111,7 +111,7 @@ function EventCardUnmemo({onChooseEvent, index, isExtended, onOuterPress}: Event
               </Button>
             </View>
         )
-    }, [styles])
+    }, [event, handleChangeAttendanceStatus, handleAlternativePress])
 
     return (
         <Pressable onPress={handleAlternativePress}>

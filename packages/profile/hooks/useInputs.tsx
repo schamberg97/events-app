@@ -1,7 +1,7 @@
 import { Icon, Text } from "@ui-kitten/components";
 import React, { useCallback, useEffect, useState } from "react";
 import {StyleSheet, TouchableWithoutFeedback, View} from 'react-native'
-import { makeProfileStoreReload, profileStore$, tmpProfileStore$ } from "../model";
+import { profileStore$, tmpProfileStore$ } from "../model";
 import { useColorScheme, themes } from "@/packages/dsgn-sstm";
 import { isEmail } from "multiform-validator";
 import type {ImageProps} from 'react-native'

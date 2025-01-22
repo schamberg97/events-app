@@ -8,7 +8,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
-import { ThemeProvider, DarkTheme, DefaultTheme, useTheme } from '@react-navigation/native';
+import { ThemeProvider, DarkTheme, DefaultTheme } from '@react-navigation/native';
 
 const queryClient = new QueryClient()
 

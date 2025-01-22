@@ -60,7 +60,7 @@ export function Signup() {
                 
             }
         })
-    }, [mutation, navigation])
+    }, [mutation, navigation, email, username, password, isAbleToSendForm])
     
     return (
         <AnimatedLayout

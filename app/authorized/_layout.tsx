@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect } from 'react';
-import { Stack, Tabs, useRouter } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Feather from '@expo/vector-icons/Feather';
-import {Icon} from '@ui-kitten/components'
-import { View, StyleSheet, Pressable, useColorScheme } from 'react-native';
+import { View, StyleSheet, useColorScheme } from 'react-native';
 
 import { IconButton, themes } from '@/packages/dsgn-sstm';
 import { profileStore$, useIsAuthorized } from '@/packages/profile';
@@ -13,33 +12,19 @@ export const unstable_settings = {
     initialRouteName: 'events',
   };
 
-const StarIcon = (): React.ReactElement => {
-    const colorScheme = useColorScheme();
-    const theme = themes[colorScheme || 'light']
-    return (
-        <View>
-            <Icon
-                name='log-out'
-                fill={theme['color-danger-500']}
-            />
-        </View>
-    );
-}
-
-
 export default function AuthorizedLayout() {
     const router = useRouter()
     const isAuthorized = useIsAuthorized()
     const handleLogout = useCallback(() => {
         profileStore$.delete()
         profileStore$.set({})
-    }, [router])
+    }, [])
 
     useEffect(() => {
         if (!isAuthorized && isAuthorized !== null) {
             router.replace('/')
         }
-    }, [isAuthorized])
+    }, [isAuthorized, router])
 
     const colorScheme = useColorScheme();
     const theme = themes[colorScheme || 'light']

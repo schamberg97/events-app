@@ -1,4 +1,4 @@
-import { observable, observe, syncState } from "@legendapp/state";
+import { observable } from "@legendapp/state";
 import { syncObservable } from '@legendapp/state/sync'
 import { API_ADDRESS, apiClient } from "../api";
 import Toast from "react-native-toast-message";
@@ -72,7 +72,7 @@ syncObservable<ProfileData>(profileStore$,
                   email: data.email,
                 }
                 return state
-            } catch (err) {
+            } catch (_err) {
               return value
             }
         }

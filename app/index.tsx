@@ -1,21 +1,12 @@
-import { Login, profileStore$, useIsAuthorized } from "@/packages/profile";
+import { Login, useIsAuthorized } from "@/packages/profile";
 import { Redirect } from "expo-router";
-import { useEffect } from "react";
-import {ActivityIndicator, StyleSheet, Text, View, ImageBackground} from 'react-native'
+import {ActivityIndicator, StyleSheet, View, ImageBackground} from 'react-native'
 
 const image = require('../assets/images/railways.jpg')
 
 export default function Index() {
 
   const isAuthorized = useIsAuthorized()
-
-  //useEffect(() => {
-  //  if (isAuthorized) {
-  //    setTimeout(() => {
-  //      profileStore$.set({email: null, username: null})
-  //    }, 1000)
-  //  }
-  //}, [isAuthorized])
 
   if (isAuthorized === false) {
     return (

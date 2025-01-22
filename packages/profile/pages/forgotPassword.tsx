@@ -46,7 +46,7 @@ export function ForgotPassword() {
                 Toast.show({type: 'success', text1: 'Success', text2: 'We have sent you an email, if specified email exists in our database'})
             }
         })
-    }, [mutation])
+    }, [mutation, email])
 
     return (
         <Animated.View

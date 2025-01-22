@@ -6,7 +6,6 @@ import { use$ } from "@legendapp/state/react";
 import { eventStore$ } from "../model";
 import { IconButton } from "@/packages/dsgn-sstm";
 import { useCallback, useState } from "react";
-import { FlashList } from "@shopify/flash-list";
 import { EventCard } from "../components/EventCard";
 import type { Event } from "../model";
 import { useRouter } from "expo-router";

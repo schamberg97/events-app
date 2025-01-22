@@ -63,7 +63,7 @@ export function Login() {
         Sign in
       </Button>
     </View>
-  ), [handleSignInAttempt]);
+  ), [handleSignInAttempt, handleGoToSignUp]);
 
   const password = use$(profileStore$.password) || ''
   const username = use$(profileStore$.username) || ''

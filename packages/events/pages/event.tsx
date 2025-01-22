@@ -20,7 +20,7 @@ export const EventPage = ({index}: Props) => {
     const navigation = useNavigation()
     const handleGoBack = useCallback(() => {
         navigation.goBack()
-    }, [])
+    }, [navigation])
 
     return (
 

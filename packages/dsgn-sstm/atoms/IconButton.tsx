@@ -1,7 +1,6 @@
 import React from "react"
-import { Pressable, useColorScheme } from "react-native"
+import { Pressable } from "react-native"
 import {Icon} from '@ui-kitten/components'
-import { themes } from "../tokens"
 import type { PropsWithChildren } from "react"
 import type {PressableProps, ViewStyle} from "react-native"
 

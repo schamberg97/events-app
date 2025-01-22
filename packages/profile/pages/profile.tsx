@@ -1,12 +1,11 @@
 import { Button, Input, Layout, Text } from "@ui-kitten/components";
 import React, { useCallback } from "react";
 import { StyleSheet, View } from 'react-native'
-import { PROFILE_URL, profileStore$, tmpProfileStore$ } from "../model";
+import { profileStore$, tmpProfileStore$ } from "../model";
 import { useInputs } from "../hooks/useInputs";
 import { use$ } from "@legendapp/state/react";
 import { useNavigation } from "expo-router";
 import Toast from "react-native-toast-message";
-import { apiClient } from "@/packages/api";
 
 export function Profile() {
     const navigation = useNavigation()
