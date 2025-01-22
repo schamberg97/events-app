@@ -40,7 +40,6 @@ function EventCardUnmemo({onChooseEvent, index, isExtended, onOuterPress}: Event
             if (event.attending) {
                 try {
                     const data = await apiClient.get({url: makeOperationURL(event.id, ATTENDANCE_CODE)})
-                    console.log(data)
                     setAttendanceCode(data.code)
                 } catch (err) {
                     //@ts-expect-error TODO: исправить
