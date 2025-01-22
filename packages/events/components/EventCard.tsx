@@ -52,7 +52,7 @@ function EventCardUnmemo({onChooseEvent, index, isExtended, onOuterPress}: Event
         })();
         
         
-    }, [event])
+    }, [event.attending])
 
     const handlePress = useCallback(() => {
         onChooseEvent(index)
