@@ -2,6 +2,7 @@ import { observable } from "@legendapp/state";
 import { synced } from '@legendapp/state/sync'
 import { API_ADDRESS, apiClient } from "../api";
 import { addQueryStringParameters } from "../core";
+import {Image} from 'react-native';
 
 export const EVENTS_URL = `${API_ADDRESS}/events`;
 
@@ -45,6 +46,12 @@ export const eventStore$ = observable<EventStore>({
             eventStore$.approximateEventsCount.set(data.total)
 
             const events : Event[] = data.items
+            // TODO: плохо, что это здесь. Но должно слегка ускорить загрузку изображений
+            events.forEach(event => {
+                try {
+                    Image.prefetch(event.image)
+                } catch (_err) {}
+            })
 
             return events
         },

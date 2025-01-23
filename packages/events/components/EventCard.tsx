@@ -9,10 +9,15 @@ import { useMutation } from "@tanstack/react-query";
 import { API_ADDRESS, apiClient } from "@/packages/api";
 import Toast from "react-native-toast-message";
 import QRCode from "react-native-qrcode-svg";
+import Animated, { useSharedValue, withTiming } from "react-native-reanimated";
 
 const CHANGE_ATTENDANCE = 'change-attendance'
 const ATTENDANCE_CODE = 'attendance-code'
 const QR_CODE_SIZE = 200
+
+const QR_CONTAINER_MAX_HEIGHT = 250
+const QR_DURATION = 350
+const QR_DISAPPEAR_DURATION = 275
 
 const makeOperationURL = (eventId: number | string, operation: string) => `${API_ADDRESS}/events/${eventId}/${operation}`
 
@@ -33,26 +38,35 @@ function EventCardUnmemo({onChooseEvent, index, isExtended, onOuterPress}: Event
     const formattedDate = useMemo(() => dayjs.unix(event.date).format('DD.MM.YYYY HH:mm'), [event.date])
     const [attendanceCode, setAttendanceCode] = useState<null|string>(null)
     const [isImageReady, setIsImageReady] = useState(false)
+    const qrCodeMaxHeight = useSharedValue<number>(0);
+
+    const qrCodeContainerAnimatedStyle = useMemo(() => ({
+        maxHeight: qrCodeMaxHeight
+    }), [qrCodeMaxHeight])
 
     useEffect(() => {
        
-        (async () => {
+        const getAttendanceCodeFn = async () => {
             if (event.attending) {
                 try {
                     const data = await apiClient.get({url: makeOperationURL(event.id, ATTENDANCE_CODE)})
                     setAttendanceCode(data.code)
+                    qrCodeMaxHeight.value = withTiming(QR_CONTAINER_MAX_HEIGHT, {duration: QR_DURATION})
                 } catch (err) {
                     //@ts-expect-error TODO: исправить
                     Toast.show({type: 'error', text1: 'Error', text2: err.message})
+                    qrCodeMaxHeight.value = withTiming(0, {duration: QR_DISAPPEAR_DURATION})
                 }
                 
             } else {
+                qrCodeMaxHeight.value = withTiming(0, {duration: QR_DISAPPEAR_DURATION})
                 setAttendanceCode(null)
             }
-        })();
+        }
+
+        if (isExtended) getAttendanceCodeFn()
         
-        
-    }, [event.attending])
+    }, [event.attending, isExtended, qrCodeMaxHeight])
 
     const handlePress = useCallback(() => {
         onChooseEvent(index)
@@ -142,18 +156,18 @@ function EventCardUnmemo({onChooseEvent, index, isExtended, onOuterPress}: Event
                             <Text numberOfLines={5} category="c1">{event.address}</Text>
                         </View>
 
-                        <View style={[styles.container, styles.marginTopEight]}>
+                        <View style={styles.attendingContainer}>
                             <Text category="c1" style={styles.textBold}>Attending: </Text>
                             <Text numberOfLines={5} category="c1">{event.attending ? 'Yes' : 'No'}</Text>
                         </View>
                         {isExtended && attendanceCode ? 
-                            <View style={[styles.qrCodeContainer, styles.marginTopEight]}>
-                                <Text category="s1" style={styles.textBold}>To attend this event, please show the QR code below at the venue</Text>
+                            <Animated.View style={[styles.qrCodeContainer, qrCodeContainerAnimatedStyle]}>
+                                <Text numberOfLines={2} category="s1" style={styles.qrText}>To attend this event, please show the QR code below at the venue</Text>
                                 <QRCode
                                   size={QR_CODE_SIZE}
                                   value={attendanceCode}
                                 />
-                            </View> 
+                            </Animated.View> 
                         : null}
                     </View>
                 </View>
@@ -171,7 +185,7 @@ const styles = StyleSheet.create({
         borderWidth: 1.25,
         borderRadius: 15,
         borderColor: 'black',
-        width: '98%', // визуально понравилось так
+        width: '99%', // визуально понравилось так
         alignSelf: 'center',
     },
     image: {
@@ -188,6 +202,10 @@ const styles = StyleSheet.create({
     },
     qrCodeContainer: {
         gap: 8,
+        marginTop: 8,
+    },
+    qrText: {
+        maxWidth: '100%',
     },
     dataSection: {
         width: '100%',
@@ -208,7 +226,7 @@ const styles = StyleSheet.create({
     textBold: {
         fontWeight: 'bold'
     },
-    marginTopEight: {
+    attendingContainer: {
         marginTop: 8
     },
     footerContainer: {
